@@ -25,12 +25,12 @@ public class principalController {
     private candidatoPoliticoRepository candidatoPoliticoRepository;
 
     @GetMapping("/")
-    public String inicio(Model model) {
-        System.out.println("main inicio de sesion ");
-        return "/inicio"; // Nombre de la plantilla Thymeleaf
+    public String inicio() {
+
+        return "index"; // Nombre de la plantilla Thymeleaf
     }
 
-    @GetMapping("/main")
+    @GetMapping("/entradadelportal")
     public String principal(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
@@ -54,7 +54,7 @@ public class principalController {
 
         model.addAttribute("PartidosPoliticos", poliPartRepo.findAll());
 
-        return "/main"; // Nombre de la plantilla Thymeleaf
+        return "entradadelportal"; // Nombre de la plantilla Thymeleaf
     }
 
     @PostMapping("/iniciosesion")
@@ -68,7 +68,7 @@ public class principalController {
         HttpSession session = request.getSession(true);
         session.setAttribute("usuarioAutenticado", votante);
 
-        return "redirect:/main";
+        return "redirect:/entradadelportal";
     }
 
 }

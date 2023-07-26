@@ -73,7 +73,7 @@ public class UsuarioController {
             }
         }
 
-        return "redirect:/main";
+        return "redirect:/entradadelportal";
     }
 
 }
