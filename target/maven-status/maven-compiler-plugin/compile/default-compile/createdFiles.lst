@@ -4,4 +4,3 @@ com/example/demo/PartidoPolitico.class
 com/example/demo/UsuarioController.class
 com/example/demo/UsuarioRepository.class
 com/example/demo/PartidoPoliticoRepository.class
-com/example/demo/PartidoPoliticoRestController.class
