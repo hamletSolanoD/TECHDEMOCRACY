@@ -26,7 +26,7 @@ public class UsuarioController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String inicio(Model model) {
         System.out.println("main inicio de sesion ");
-        return "/inicio"; // Nombre de la plantilla Thymeleaf
+        return "/politicoselegidos"; // Nombre de la plantilla Thymeleaf
     }
 
     @GetMapping("/politicoselegidos")
