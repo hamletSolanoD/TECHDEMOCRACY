@@ -24,7 +24,7 @@ public class UsuarioController {
     private candidatoPoliticoRepository candidatoPoliticoRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(Model model) {
+    public String inicio(Model model) {
         System.out.println("main inicio de sesion ");
         return "/inicio"; // Nombre de la plantilla Thymeleaf
     }
@@ -67,7 +67,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/main")
-    public String main(Model model, HttpServletRequest request) {
+    public String principal(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
         // Obtener el objeto UsuarioVotante de la sesión si existe
