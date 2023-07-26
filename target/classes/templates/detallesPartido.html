@@ -73,6 +73,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre del Candidato</th>
+                    <th>Puesto del Candidato</th>
                     <th>Estatus</th>
                     <th></th>
                 </tr>
@@ -81,6 +82,7 @@
                 <tr th:each="candidato : ${listaCandidatos}">
                     <td th:text="${candidato.id}"></td>
                     <td th:text="${candidato.nombre}"></td>
+                    <td th:text="${candidato.puesto}"></td>
                     <td th:text="${candidato.status}"></td>
                     <td><a th:href="@{'/candidatospoliticos/' + ${candidato.id}}">Ver Detalles</a></td>
                 </tr>
