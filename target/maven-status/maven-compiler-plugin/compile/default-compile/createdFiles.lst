@@ -1,6 +1,13 @@
 com/example/demo/Application.class
+com/example/demo/CandidatoPolitico.class
 com/example/demo/UsuarioVotante.class
 com/example/demo/PartidoPolitico.class
+com/example/demo/RespuestasForm.class
+com/example/demo/candidatoPoliticoRepository.class
 com/example/demo/UsuarioController.class
 com/example/demo/UsuarioRepository.class
+com/example/demo/PartidoPoliticoController.class
+com/example/demo/propuestaRepository.class
+com/example/demo/propuesta.class
 com/example/demo/PartidoPoliticoRepository.class
+com/example/demo/CandidatoPoliticoController.class
