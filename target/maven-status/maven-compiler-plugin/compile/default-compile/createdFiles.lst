@@ -1,4 +1,5 @@
 com/example/demo/Application.class
+com/example/demo/principalController.class
 com/example/demo/CandidatoPolitico.class
 com/example/demo/UsuarioVotante.class
 com/example/demo/PartidoPolitico.class

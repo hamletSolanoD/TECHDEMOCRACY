@@ -17,17 +17,9 @@ import jakarta.servlet.http.HttpSession;
 public class UsuarioController {
     @Autowired
     private UsuarioRepository repo;
-    @Autowired
-    private PartidoPoliticoRepository poliPartRepo;
 
     @Autowired
     private candidatoPoliticoRepository candidatoPoliticoRepository;
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String inicio(Model model) {
-        System.out.println("main inicio de sesion ");
-        return "/politicoselegidos"; // Nombre de la plantilla Thymeleaf
-    }
 
     @GetMapping("/politicoselegidos")
     public String politicoselegidos(Model model, HttpServletRequest request) {
@@ -64,47 +56,6 @@ public class UsuarioController {
         model.addAttribute("candidatosElegidos", candidatosElegidos);
 
         return "politicoselegidos";
-    }
-
-    @GetMapping("/main")
-    public String principal(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-
-        // Obtener el objeto UsuarioVotante de la sesión si existe
-        if (session != null) {
-            UsuarioVotante usuarioVotante = (UsuarioVotante) session.getAttribute("usuarioAutenticado");
-            List<String> puestosList = candidatoPoliticoRepository.findAllDistinctPuestos();
-            Map<String, List<CandidatoPolitico>> candidatosPorPuesto = new HashMap<>();
-            for (String puesto : puestosList) {
-                List<CandidatoPolitico> candidatos = candidatoPoliticoRepository.findNombresByPuesto(puesto);
-                candidatosPorPuesto.put(puesto, candidatos);
-            }
-            model.addAttribute("puestosList", puestosList);
-            model.addAttribute("candidatosPorPuesto", candidatosPorPuesto);
-            model.addAttribute("usuarioVotante", usuarioVotante);
-            model.addAttribute("respuestasForm", new RespuestasForm());
-            model.addAttribute("status", usuarioVotante.getStatus());
-        } else {
-            // error
-        }
-
-        model.addAttribute("PartidosPoliticos", poliPartRepo.findAll());
-
-        return "/main"; // Nombre de la plantilla Thymeleaf
-    }
-
-    @PostMapping("/iniciosesion")
-    public String iniciosesion(@RequestParam("password") String password, HttpServletRequest request) {
-        UsuarioVotante votante = null;
-        try {
-            votante = repo.findByClave(password).get(0);
-        } catch (Throwable e) {
-        }
-
-        HttpSession session = request.getSession(true);
-        session.setAttribute("usuarioAutenticado", votante);
-
-        return "redirect:/main";
     }
 
     @PostMapping("/submitRespuestas")
