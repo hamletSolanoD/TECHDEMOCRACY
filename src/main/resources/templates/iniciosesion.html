@@ -3,56 +3,197 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Resultados de Elección</title>
+    <title>Carrusel de Propuestas</title>
     <style>
-        /* Estilos para la tabla */
-        table {
-            border-collapse: collapse;
-            width: 100%;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
-        th,
-        td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
+        /* Estilos para el headbar */
+        .navbar {
+            background-color: #007bff;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
         }
 
-        th {
-            background-color: #f2f2f2;
+        .nav-item {
+            padding: 10px 20px;
+            cursor: pointer;
         }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+        .nav-item.active {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para el carrusel de propuestas */
+        .carousel-container {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .carousel-item {
+            display: none;
+            max-width: 100%;
+            max-height: 300px;
+            margin: 0 auto;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .author {
+            font-size: 16px;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .carousel-btn {
+            cursor: pointer;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Estilos para el headbar */
+        .navbar {
+            background-color: #007bff;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .nav-item {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para el carrusel de propuestas */
+        .carousel-container {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .carousel-item {
+            display: none;
+            max-width: 100%;
+            max-height: 300px;
+            margin: 0 auto;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .author {
+            font-size: 16px;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
-    <h1>Resultados de Elección</h1>
-    <table>
-        <tr>
-            <th>Puesto</th>
-            <th>Partido Político</th>
-            <th>Cantidad de Propuestas</th>
-            <th>Nombre del Candidato</th>
-        </tr>
-        <!-- Iterar sobre el mapa de candidatosElegidos -->
-        <th:block th:each="entry : ${candidatosElegidos}">
-            <tr>
-                <!-- La clave del mapa es 'puesto' -->
-                <td th:text="${entry.key}"></td>
+    <!-- Headbar -->
+    <div class="navbar">
+        <a class="nav-item active" th:href="@{/main}">Partidos</a>
+        <div class="nav-item"><span th:text="${candidato.nombre}"></span></div>
+    </div>
 
-                <!-- El valor del mapa es 'candidato' -->
-                <td th:text="${entry.value.partidoPolitico.nombre}"></td>
+    <!-- Carrusel de Propuestas -->
+    <div class="carousel-container">
+        <div class="carousel-item active" th:each="propuesta : ${propuestasPoliticas}">
+            <div class="title" th:text="${propuesta.titulo}">Título de la Propuesta Política</div>
+            <img class="photo" th:if="${propuesta.fotoURL}" th:src="${propuesta.fotoURL}">
+            <div class="description" th:text="${propuesta.propuesta}">Descripción de la Propuesta Política</div>
+            <div class="author" th:text="${propuesta.candidato.nombre}">Nombre del Candidato Autor</div>
+        </div>
+        <!-- Botones del carrusel -->
+        <div>
+            <button class="carousel-btn" onclick="plusSlides(-1)">Anterior</button>
+            <button class="carousel-btn" onclick="plusSlides(1)">Siguiente</button>
+        </div>
+    </div>
 
-                <!-- Puedes seguir accediendo a las propiedades del candidato como lo estabas haciendo -->
-                <td><a th:href="@{'/candidatospoliticos/' + ${entry.value.id}}">Ver Detalles</a></td>
-                <td th:text="${entry.value.nombre}"></td>
-            </tr>
-        </th:block>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // JavaScript para el carrusel
+        let slideIndex = 1;
+        showSlide(slideIndex);
 
-    </table>
+        function plusSlides(n) {
+            showSlide(slideIndex += n);
+        }
+
+        function showSlide(n) {
+            let slides = document.getElementsByClassName("carousel-item");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex - 1].style.display = "block";
+        }
+        /*]]>*/
+    </script>
 </body>
 
 </html>

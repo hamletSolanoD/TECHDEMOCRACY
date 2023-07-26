@@ -25,6 +25,7 @@ public class UsuarioController {
 
     @GetMapping("/")
     public String index(Model model) {
+        System.out.println("main inicio de sesion ");
         return "/iniciosesion"; // Nombre de la plantilla Thymeleaf
     }
 
@@ -61,7 +62,6 @@ public class UsuarioController {
         // Pasar el Map candidatosElegidos al modelo para que pueda ser utilizado en la
         // vista
         model.addAttribute("candidatosElegidos", candidatosElegidos);
-        System.out.println(candidatosElegidos.toString());
 
         return "politicoselegidos";
     }
