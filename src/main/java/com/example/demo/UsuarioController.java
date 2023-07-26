@@ -23,10 +23,10 @@ public class UsuarioController {
     @Autowired
     private candidatoPoliticoRepository candidatoPoliticoRepository;
 
-    @GetMapping("/")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
         System.out.println("main inicio de sesion ");
-        return "/iniciosesion"; // Nombre de la plantilla Thymeleaf
+        return "/inicio"; // Nombre de la plantilla Thymeleaf
     }
 
     @GetMapping("/politicoselegidos")
