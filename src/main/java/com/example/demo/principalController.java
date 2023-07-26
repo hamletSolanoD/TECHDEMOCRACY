@@ -63,6 +63,8 @@ public class principalController {
         try {
             votante = repo.findByClave(password).get(0);
         } catch (Throwable e) {
+            return "redirect:/";
+
         }
 
         HttpSession session = request.getSession(true);
