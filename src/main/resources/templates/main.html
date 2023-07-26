@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tech Democracy</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Estilos para el navbar */
+        .navbar {
+            background-color: #007bff;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .nav-item {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para los contenedores */
+        .container {
+            display: none;
+            padding: 20px;
+        }
+
+        .container.active {
+            display: block;
+        }
+
+        /* Estilos para el formulario de votación */
+        .voting-form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            margin-bottom: 20px;
+        }
+
+        .option-dropdown {
+            width: 100%;
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para el contenedor */
+        .preregistrado-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Estilos para el mensaje de error */
+        .preregistrado-error-message {
+            text-align: center;
+            background-color: #f2dede;
+            padding: 20px;
+            border: 1px solid #ebccd1;
+            border-radius: 5px;
+            max-width: 400px;
+        }
+
+        .preregistrado-error-title {
+            color: #a94442;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .preregistrado-error-text {
+            color: #a94442;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .preregistrado-back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #d9534f;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+    <script>
+        function openTab(tabName) {
+            var i, tabContent;
+            tabContent = document.getElementsByClassName("container");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            document.getElementById(tabName).style.display = "block";
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="nav-item active" onclick="openTab('partidos')">Partidos</div>
+        <div class="nav-item">¡Bienvenido, <span th:text="${usuarioVotante.nombre}"></span>!</div>
+        <div class="nav-item" onclick="openTab('votar')">Votar</div>
+    </div>
+
+    <div id="partidos" class="container active">
+        <table id="listapartidos" class="table" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre del Partido</th>
+                    <th>Estatus</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody id="tablaPartidos">
+                <tr th:each="partido : ${PartidosPoliticos}">
+                    <td th:text="${partido.id}"></td>
+                    <td th:text="${partido.nombre}"></td>
+                    <td th:text="${partido.estatus}"></td>
+                    <td><a th:href="@{'/partidospoliticos/' + ${partido.id}}">Ver Detalles</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="votar" class="container">
+        <div th:if="${status == 'disponible' }">
+            <form id="formulario" class="voting-form" th:object="${respuestasForm}" th:action="@{/submitRespuestas}"
+                method="post">
+                <th:block th:each="puesto : ${puestosList}">
+                    <div class="question" th:text="${puesto} + ':'"></div>
+                    <div class="options">
+                        <select th:field="*{respuestas[__${puesto}__]}" class="option-dropdown">
+                            <option th:each="candidato : ${candidatosPorPuesto[__${puesto}__]}"
+                                th:value="${candidato.id}" th:text="${candidato.nombre}"></option>
+                        </select>
+                    </div>
+                </th:block>
+                <button type="submit" class="submit-btn">Enviar Respuestas</button>
+            </form>
+        </div>
+        <div th:if="${status != 'disponible'}">
+            <div class="preregistrado-error-message">
+                <h2 class="preregistrado-error-title">ERROR: YA VOTASTE PREVIAMENTE</h2>
+                <p class="preregistrado-error-text">Lo sentimos, pero parece que ya has realizado tu votación
+                    previamente. Solo se
+                    permite una votación por usuario.</p>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+
+</html>

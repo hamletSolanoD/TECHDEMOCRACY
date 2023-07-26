@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tech Democracy</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Estilos para el navbar */
+        .navbar {
+            background-color: #007bff;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .nav-item {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para los contenedores */
+        .container {
+            display: none;
+            padding: 20px;
+        }
+
+        .container.active {
+            display: block;
+        }
+    </style>
+    <script>
+        function openTab(tabName) {
+            var i, tabContent;
+            tabContent = document.getElementsByClassName("container");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            document.getElementById(tabName).style.display = "block";
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+
+</head>
+
+<body>
+    <div class="navbar">
+        <a class="nav-item active" th:href="@{/main}">Partidos</a>
+        <div class="nav-item"><span th:text="${partidoPolitico.nombre}"></span></div>
+    </div>
+
+    <div id="partidos" class="container active">
+        <table id="listacandidatos" class="table" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre del Candidato</th>
+                    <th>Estatus</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tablaCandidatos">
+                <tr th:each="candidato : ${listaCandidatos}">
+                    <td th:text="${candidato.id}"></td>
+                    <td th:text="${candidato.nombre}"></td>
+                    <td th:text="${candidato.status}"></td>
+                    <td><a th:href="@{'/candidatospoliticos/' + ${candidato.id}}">Ver Detalles</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</html>

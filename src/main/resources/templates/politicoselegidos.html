@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados de Elección</title>
+    <style>
+        /* Estilos para la tabla */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Resultados de Elección</h1>
+    <table>
+        <tr>
+            <th>Puesto</th>
+            <th>Partido Político</th>
+            <th>Cantidad de Propuestas</th>
+            <th>Nombre del Candidato</th>
+        </tr>
+        <!-- Iterar sobre el mapa de candidatosElegidos -->
+        <th:block th:each="entry : ${candidatosElegidos}">
+            <tr>
+                <!-- La clave del mapa es 'puesto' -->
+                <td th:text="${entry.key}"></td>
+
+                <!-- El valor del mapa es 'candidato' -->
+                <td th:text="${entry.value.partidoPolitico.nombre}"></td>
+
+                <!-- Puedes seguir accediendo a las propiedades del candidato como lo estabas haciendo -->
+                <td><a th:href="@{'/candidatospoliticos/' + ${entry.value.id}}">Ver Detalles</a></td>
+                <td th:text="${entry.value.nombre}"></td>
+            </tr>
+        </th:block>
+
+    </table>
+</body>
+
+</html>
