@@ -25,7 +25,7 @@ public class UsuarioController {
 
     @GetMapping("/")
     public String index(Model model) {
-        return "/login"; // Nombre de la plantilla Thymeleaf
+        return "/iniciosesion"; // Nombre de la plantilla Thymeleaf
     }
 
     @GetMapping("/politicoselegidos")
@@ -93,8 +93,8 @@ public class UsuarioController {
         return "/main"; // Nombre de la plantilla Thymeleaf
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam("password") String password, HttpServletRequest request) {
+    @PostMapping("/iniciosesion")
+    public String iniciosesion(@RequestParam("password") String password, HttpServletRequest request) {
         UsuarioVotante votante = null;
         try {
             votante = repo.findByClave(password).get(0);
